@@ -21,19 +21,20 @@ PS C:\mincrypto> cargo test
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.07s
      Running unittests src\main.rs (target\debug\deps\mincrypto-d21d375786af82b7.exe)
 
-running 10 tests
+running 11 tests
 test test::test_extended_gcd_1 ... ok
 test test::test_extended_gcd_2 ... ok
-test test::test_gcd_2 ... ok
-test test::test_factorization_1 ... ok
-test test::test_extended_gcd_4 ... ok
-test test::test_factorization_2 ... ok
 test test::test_gcd_1 ... ok
+test test::test_lcm_2 ... ok
+test test::test_gcd_2 ... ok
+test test::test_extended_gcd_4 ... ok
+test test::test_pow ... ok
+test test::test_factorization_2 ... ok
+test test::test_factorization_1 ... ok
 test test::test_lcm_1 ... ok
 test test::test_extended_gcd_3 ... ok
-test test::test_lcm_2 ... ok
 
-test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 ```
 
 ## TODO
