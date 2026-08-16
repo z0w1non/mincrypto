@@ -58,6 +58,24 @@ fn extended_gcd(a: i64, b: i64) -> (i64, i64, i64) {
     (g, yd, xd - a / b * yd)
 }
 
+// 繰り返し二乗法によるべき乗
+fn pow(x: i64, n: i64, p: i64) -> i64 {
+    let modulus = p as u128;
+    let mut base = (x % p) as u128;
+    let mut exp: i64 = n;
+    let mut result: u128 = 1 % modulus;
+
+    while exp > 0 {
+        if (exp & 1) != 0 {
+            result = (result * base) % modulus;
+        }
+        base = (base * base) % modulus;
+        exp >>= 1;
+    }
+
+    result as i64
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -110,6 +128,11 @@ mod test {
     #[test]
     fn test_extended_gcd_4() {
         assert_eq!(extended_gcd(-3, -5), (1, -2, 1));
+    }
+
+    #[test]
+    fn test_pow() {
+        assert_eq!(pow(3, 8, 1000000007), 6561)
     }
 }
 
