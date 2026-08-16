@@ -59,7 +59,7 @@ fn extended_gcd(a: i64, b: i64) -> (i64, i64, i64) {
 }
 
 // 繰り返し二乗法によるべき乗
-fn pow(x: i64, n: i64, p: i64) -> i64 {
+fn pow_positive(x: i64, n: i64, p: i64) -> i64 {
     let modulus = p as u128;
     let mut base = (x % p) as u128;
     let mut exp: i64 = n;
@@ -74,6 +74,41 @@ fn pow(x: i64, n: i64, p: i64) -> i64 {
     }
 
     result as i64
+}
+
+// 拡張ユーグリッドの互除法によるモジュラ逆元 (x * inv % p = 1)
+fn modulus_inverse(x: i64, p: i64) -> Option<i64> {
+    let (mut a, mut b) = (x.rem_euclid(p), p);
+    let (mut u, mut v) = (1 as i64, 0 as i64);
+
+    while b != 0 {
+        let t = a / b;
+        a -= t * b;
+        std::mem::swap(&mut a, &mut b);
+        u -= t * v;
+        std::mem::swap(&mut u, &mut v);
+    }
+
+    if a == 1 {
+        // %演算子では負の数に対して負の余りが変えるため、rem_euclidで 0<r<p を返す。
+        Some(u.rem_euclid(p))
+    } else {
+        // 逆元が存在しない
+        None
+    }
+}
+
+fn pow(x: i64, n: i64, p: i64) -> Option<i64> {
+    if p == 1 {
+        return Some(0);
+    }
+
+    if n >= 0 {
+        Some(pow_positive(x, n, p))
+    } else {
+        let inv = modulus_inverse(x, p)?;
+        Some(pow_positive(inv, n.abs(), p))
+    }
 }
 
 #[cfg(test)]
@@ -131,8 +166,19 @@ mod test {
     }
 
     #[test]
-    fn test_pow() {
-        assert_eq!(pow(3, 8, 1000000007), 6561)
+    fn test_pow_1() {
+        assert_eq!(pow(3, 8, 1000000007).unwrap(), 6561);
+    }
+
+    #[test]
+    fn test_pow_2() {
+        assert_eq!(pow(2, 10, 1000000007).unwrap(), 1024);
+    }
+
+    #[test]
+    fn test_pow_3() {
+        assert_eq!(pow(2, -1, 1000000007).unwrap(), 500000004);
+        assert_eq!(((10 as i64 * 500000004 as i64) % 1000000007 as i64) as i32, 5 as i32);
     }
 }
 
