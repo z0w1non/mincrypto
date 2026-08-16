@@ -90,7 +90,7 @@ fn modulus_inverse(x: i64, p: i64) -> Option<i64> {
     }
 
     if a == 1 {
-        // %演算子では負の数に対して負の余りが変えるため、rem_euclidで 0<r<p を返す。
+        // %演算子では負の数に対して負の余りが返るため、rem_euclidで 0<r<p を返す。
         Some(u.rem_euclid(p))
     } else {
         // 逆元が存在しない
