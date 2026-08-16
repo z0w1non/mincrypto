@@ -1,4 +1,4 @@
-# AssocRustCpp
+# mincrypto
 
 ## 概要
 暗号理論に関連する数学の初歩的なロジックの実装
